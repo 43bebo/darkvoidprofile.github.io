@@ -344,21 +344,21 @@
   let score = 0;
   let cookiesPerClick = 1;
   let cookiesPerSecond = 0;
-
+ 
   const upgrades = [
     { id: 'better_fingers', name: 'Nimble Fingers',  icon: '🖐️', desc: '+2 Clickes per click',        baseCost: 15,  owned: 0, type: 'cpc', amount: 2 },
     { id: 'grandma',        name: 'Grandma',          icon: '👵', desc: '+1 Clickes per second',        baseCost: 50,  owned: 0, type: 'cps', amount: 1 },
     { id: 'golden_touch',   name: 'Golden Touch',     icon: '✨', desc: '+5 Clickes per click',        baseCost: 120, owned: 0, type: 'cpc', amount: 5 },
-    { id: 'bakery',         name: 'LET HIM COOK',     icon: '🏠', desc: '+5 Clickes per second',       baseCost: 300, owned: 0, type: 'cps', amount: 5 },
+    { id: 'bakery',         name: 'Bakery',           icon: '🏠', desc: '+5 Clickes per second',       baseCost: 300, owned: 0, type: 'cps', amount: 5 },
     { id: 'oven',           name: 'Magic Oven',       icon: '🔥', desc: '+12 Clickes per click',       baseCost: 700, owned: 0, type: 'cpc', amount: 12 },
-    { id: 'factory',        name: 'Clicks Factory',   icon: '🏭', desc: '+20 Clickes per second',      baseCost: 1500,owned: 0, type: 'cps', amount: 20 },
-    { id: 'portal',         name: 'Clicks Portal',    icon: '🌀', desc: '+80 Clickes per second',      baseCost: 5000,owned: 0, type: 'cps', amount: 80 },
+    { id: 'factory',        name: 'Clickes Factory',  icon: '🏭', desc: '+20 Clickes per second',      baseCost: 1500,owned: 0, type: 'cps', amount: 20 },
+    { id: 'portal',         name: 'Clickes Portal',   icon: '🌀', desc: '+80 Clickes per second',      baseCost: 5000,owned: 0, type: 'cps', amount: 80 },
     { id: 'time_machine',   name: 'Time Machine',     icon: '⏰', desc: '+200 Clickes per second',     baseCost:15000,owned: 0, type: 'cps', amount: 200 },
   ];
-
+ 
   const milestones = [100, 500, 1000, 5000, 10000, 50000, 100000];
   let nextMilestone = 0;
-
+ 
   // ── DOM refs ────────────────────────────────────────────
   const scoreEl      = document.getElementById('score');
   const cpcEl        = document.getElementById('cpc-display');
@@ -366,7 +366,7 @@
   const btn          = document.getElementById('cookieBtn');
   const upgradesList = document.getElementById('upgrades-list');
   const toast        = document.getElementById('toast');
-
+ 
   // ── Helpers ─────────────────────────────────────────────
   function fmt(n) {
     if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
@@ -374,11 +374,11 @@
     if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
     return Math.floor(n).toLocaleString();
   }
-
+ 
   function upgradeCost(u) {
     return Math.floor(u.baseCost * Math.pow(1.55, u.owned));
   }
-
+ 
   // ── Render ───────────────────────────────────────────────
   function renderUpgrades() {
     upgradesList.innerHTML = '';
@@ -403,7 +403,7 @@
       upgradesList.appendChild(card);
     });
   }
-
+ 
   function updateDisplay() {
     scoreEl.textContent  = fmt(score);
     cpcEl.textContent    = fmt(cookiesPerClick);
@@ -411,17 +411,17 @@
     renderUpgrades();
     checkMilestone();
   }
-
+ 
   // ── Click ────────────────────────────────────────────────
   btn.addEventListener('click', e => {
     score += cookiesPerClick;
-
+ 
     // Pop animation on score
     scoreEl.classList.remove('pop');
     void scoreEl.offsetWidth;
     scoreEl.classList.add('pop');
     setTimeout(() => scoreEl.classList.remove('pop'), 100);
-
+ 
     // Floating +N label
     const label = document.createElement('div');
     label.className   = 'float-label';
@@ -430,10 +430,10 @@
     label.style.top   = (e.clientY - 20) + 'px';
     document.body.appendChild(label);
     setTimeout(() => label.remove(), 900);
-
+ 
     updateDisplay();
   });
-
+ 
   // ── Upgrades ─────────────────────────────────────────────
   function buyUpgrade(u) {
     const cost = upgradeCost(u);
@@ -444,7 +444,7 @@
     if (u.type === 'cps') cookiesPerSecond += u.amount;
     updateDisplay();
   }
-
+ 
   // ── Auto-clicker ──────────────────────────────────────────
   setInterval(() => {
     if (cookiesPerSecond > 0) {
@@ -452,7 +452,7 @@
       updateDisplay();
     }
   }, 1000);
-
+ 
   // ── Milestones ────────────────────────────────────────────
   let toastTimer;
   function showToast(msg) {
@@ -461,15 +461,59 @@
     toast.classList.add('show');
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
   }
-
+ 
   function checkMilestone() {
     if (nextMilestone < milestones.length && score >= milestones[nextMilestone]) {
       showToast('🎉 ' + fmt(milestones[nextMilestone]) + ' cookies reached!');
       nextMilestone++;
     }
   }
-
-  // ── Init ──────────────────────────────────────────────────
+ 
+  // ── Save & Load (localStorage) ───────────────────────
+  function saveGame() {
+    localStorage.setItem('cookieEmpire', JSON.stringify({
+      score,
+      cookiesPerClick,
+      cookiesPerSecond,
+      upgrades: upgrades.map(u => ({ id: u.id, owned: u.owned }))
+    }));
+  }
+ 
+  function loadGame() {
+    try {
+      const saved = localStorage.getItem('cookieEmpire');
+      if (!saved) return;
+      const data = JSON.parse(saved);
+      score            = data.score || 0;
+      cookiesPerClick  = data.cookiesPerClick || 1;
+      cookiesPerSecond = data.cookiesPerSecond || 0;
+      (data.upgrades || []).forEach(s => {
+        const u = upgrades.find(x => x.id === s.id);
+        if (u) u.owned = s.owned;
+      });
+    } catch(e) {
+      console.log('Save corrupted, starting fresh');
+    }
+  }
+ 
+  function resetGame() {
+    if (!confirm('Reset all progress? This cannot be undone!')) return;
+    localStorage.removeItem('cookieEmpire');
+    score = 0; cookiesPerClick = 1; cookiesPerSecond = 0;
+    upgrades.forEach(u => u.owned = 0);
+    nextMilestone = 0;
+    updateDisplay();
+    showToast('Deleted! Starting fresh \uD83D\uDDD1\uFE0F');
+  }
+ 
+  document.getElementById('resetBtn').addEventListener('click', resetGame);
+ 
+  // Auto-save every 30 seconds + saves when you close the tab
+  setInterval(saveGame, 30000);
+  window.addEventListener('beforeunload', saveGame);
+ 
+  // ── Init ──────────────────────────────────────────────
+  loadGame();
   updateDisplay();
 </script>
 </body>
