@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clicker Game that i made because i was bored</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0c14;
+      --surface: #1a1726;
+      --surface2: #241f35;
+      --accent: #f5a623;
+      --accent2: #e05fff;
+      --text: #f0ecff;
+      --muted: #8a829e;
+      --border: rgba(255,255,255,0.07);
+      --glow: rgba(245,166,35,0.35);
+      --glow2: rgba(224,95,255,0.2);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px;
+      background-image:
+        radial-gradient(ellipse 60% 40% at 20% 0%, rgba(224,95,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 35% at 80% 100%, rgba(245,166,35,0.1) 0%, transparent 70%);
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f5a623, #e05fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+    }
+
+    .game-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    @media (max-width: 680px) {
+      .game-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Left panel */
+    .clicker-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .score-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 32px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .score-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .score-value {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      text-shadow: 0 0 40px var(--glow);
+      transition: transform 0.08s;
+    }
+
+    .score-value.pop {
+      transform: scale(1.08);
+    }
+
+    .cps-badge {
+      margin-top: 10px;
+      display: inline-block;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .cps-badge span {
+      color: var(--accent2);
+      font-weight: 500;
+    }
+
+    /* Cookie button */
+    .cookie-btn {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: radial-gradient(circle at 38% 36%, #f5c842, #c97b10);
+      box-shadow:
+        0 0 0 6px rgba(245,166,35,0.12),
+        0 0 0 12px rgba(245,166,35,0.06),
+        0 12px 40px rgba(245,166,35,0.3),
+        inset 0 -6px 20px rgba(0,0,0,0.3);
+      font-size: 5rem;
+      transition: transform 0.08s, box-shadow 0.08s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cookie-btn:active {
+      transform: scale(0.92);
+      box-shadow:
+        0 0 0 6px rgba(245,166,35,0.08),
+        0 4px 20px rgba(245,166,35,0.2),
+        inset 0 -2px 10px rgba(0,0,0,0.3);
+    }
+
+    .cookie-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.35) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .cpc-info {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .cpc-info strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Float labels on click */
+    .float-label {
+      position: fixed;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+      pointer-events: none;
+      animation: floatUp 0.9s ease forwards;
+      z-index: 999;
+      text-shadow: 0 0 12px var(--glow);
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-70px) scale(0.8); }
+    }
+
+    /* Right panel — upgrades */
+    .upgrades-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .upgrade-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upgrade-card:hover:not(.locked) {
+      background: var(--surface2);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-1px);
+    }
+
+    .upgrade-card.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .upgrade-card.affordable {
+      border-color: rgba(245,166,35,0.35);
+      box-shadow: 0 0 0 1px rgba(245,166,35,0.1) inset;
+    }
+
+    .upgrade-card.affordable::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(245,166,35,0.06), transparent);
+      pointer-events: none;
+    }
+
+    .upgrade-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      width: 44px;
+      text-align: center;
+    }
+
+    .upgrade-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .upgrade-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .upgrade-desc {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .upgrade-cost {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .upgrade-owned {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* Milestone toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--surface2);
+      border: 1px solid rgba(224,95,255,0.4);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(224,95,255,0.1) inset;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+      opacity: 0;
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Let this fingers work gng</h1>
+<p class="subtitle">@eu3p on discord</p>
+
+<div class="game-layout">
+
+  <!-- Left: clicker -->
+  <div class="clicker-panel">
+    <div class="score-card">
+      <div class="score-label">Total Clicks</div>
+      <div class="score-value" id="score">0</div>
+      <div class="cps-badge">Auto: <span id="cps-display">0</span> / sec</div>
+    </div>
+
+    <button class="cookie-btn" id="cookieBtn" aria-label="Click to earn cookies">👆</button>
+
+    <p class="cpc-info">Each click earns <strong id="cpc-display">1</strong> click</p>
+  </div>
+
+  <!-- Right: upgrades -->
+  <div class="upgrades-panel">
+    <div class="panel-title">Upgrades</div>
+    <div id="upgrades-list"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Game state ──────────────────────────────────────────
+  let score = 0;
+  let cookiesPerClick = 1;
+  let cookiesPerSecond = 0;
+
+  const upgrades = [
+    { id: 'better_fingers', name: 'Nimble Fingers',  icon: '🖐️', desc: '+2 Clickes per click',        baseCost: 15,  owned: 0, type: 'cpc', amount: 2 },
+    { id: 'grandma',        name: 'Grandma',          icon: '👵', desc: '+1 Clickes per second',        baseCost: 50,  owned: 0, type: 'cps', amount: 1 },
+    { id: 'golden_touch',   name: 'Golden Touch',     icon: '✨', desc: '+5 Clickes per click',        baseCost: 120, owned: 0, type: 'cpc', amount: 5 },
+    { id: 'bakery',         name: 'LET HIM COOK',     icon: '🏠', desc: '+5 Clickes per second',       baseCost: 300, owned: 0, type: 'cps', amount: 5 },
+    { id: 'oven',           name: 'Magic Oven',       icon: '🔥', desc: '+12 Clickes per click',       baseCost: 700, owned: 0, type: 'cpc', amount: 12 },
+    { id: 'factory',        name: 'Clicks Factory',   icon: '🏭', desc: '+20 Clickes per second',      baseCost: 1500,owned: 0, type: 'cps', amount: 20 },
+    { id: 'portal',         name: 'Clicks Portal',    icon: '🌀', desc: '+80 Clickes per second',      baseCost: 5000,owned: 0, type: 'cps', amount: 80 },
+    { id: 'time_machine',   name: 'Time Machine',     icon: '⏰', desc: '+200 Clickes per second',     baseCost:15000,owned: 0, type: 'cps', amount: 200 },
+  ];
+
+  const milestones = [100, 500, 1000, 5000, 10000, 50000, 100000];
+  let nextMilestone = 0;
+
+  // ── DOM refs ────────────────────────────────────────────
+  const scoreEl      = document.getElementById('score');
+  const cpcEl        = document.getElementById('cpc-display');
+  const cpsEl        = document.getElementById('cps-display');
+  const btn          = document.getElementById('cookieBtn');
+  const upgradesList = document.getElementById('upgrades-list');
+  const toast        = document.getElementById('toast');
+
+  // ── Helpers ─────────────────────────────────────────────
+  function fmt(n) {
+    if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
+    if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+    if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+    return Math.floor(n).toLocaleString();
+  }
+
+  function upgradeCost(u) {
+    return Math.floor(u.baseCost * Math.pow(1.55, u.owned));
+  }
+
+  // ── Render ───────────────────────────────────────────────
+  function renderUpgrades() {
+    upgradesList.innerHTML = '';
+    upgrades.forEach(u => {
+      const cost      = upgradeCost(u);
+      const canAfford = score >= cost;
+      const card      = document.createElement('div');
+      card.className  = 'upgrade-card' + (canAfford ? ' affordable' : ' locked');
+      card.innerHTML  = `
+        <div class="upgrade-icon">${u.icon}</div>
+        <div class="upgrade-info">
+          <div class="upgrade-name">${u.name}</div>
+          <div class="upgrade-desc">${u.desc}</div>
+        </div>
+        <div>
+          <div class="upgrade-cost">${fmt(cost)} 🪙</div>
+          <div class="upgrade-owned">owned: ${u.owned}</div>
+        </div>`;
+      if (canAfford) {
+        card.addEventListener('click', () => buyUpgrade(u));
+      }
+      upgradesList.appendChild(card);
+    });
+  }
+
+  function updateDisplay() {
+    scoreEl.textContent  = fmt(score);
+    cpcEl.textContent    = fmt(cookiesPerClick);
+    cpsEl.textContent    = fmt(cookiesPerSecond);
+    renderUpgrades();
+    checkMilestone();
+  }
+
+  // ── Click ────────────────────────────────────────────────
+  btn.addEventListener('click', e => {
+    score += cookiesPerClick;
+
+    // Pop animation on score
+    scoreEl.classList.remove('pop');
+    void scoreEl.offsetWidth;
+    scoreEl.classList.add('pop');
+    setTimeout(() => scoreEl.classList.remove('pop'), 100);
+
+    // Floating +N label
+    const label = document.createElement('div');
+    label.className   = 'float-label';
+    label.textContent = '+' + fmt(cookiesPerClick);
+    label.style.left  = (e.clientX - 20) + 'px';
+    label.style.top   = (e.clientY - 20) + 'px';
+    document.body.appendChild(label);
+    setTimeout(() => label.remove(), 900);
+
+    updateDisplay();
+  });
+
+  // ── Upgrades ─────────────────────────────────────────────
+  function buyUpgrade(u) {
+    const cost = upgradeCost(u);
+    if (score < cost) return;
+    score -= cost;
+    u.owned++;
+    if (u.type === 'cpc') cookiesPerClick += u.amount;
+    if (u.type === 'cps') cookiesPerSecond += u.amount;
+    updateDisplay();
+  }
+
+  // ── Auto-clicker ──────────────────────────────────────────
+  setInterval(() => {
+    if (cookiesPerSecond > 0) {
+      score += cookiesPerSecond;
+      updateDisplay();
+    }
+  }, 1000);
+
+  // ── Milestones ────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    clearTimeout(toastTimer);
+    toast.textContent = msg;
+    toast.classList.add('show');
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  function checkMilestone() {
+    if (nextMilestone < milestones.length && score >= milestones[nextMilestone]) {
+      showToast('🎉 ' + fmt(milestones[nextMilestone]) + ' cookies reached!');
+      nextMilestone++;
+    }
+  }
+
+  // ── Init ──────────────────────────────────────────────────
+  updateDisplay();
+</script>
+</body>
+</html>
