@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="voidlogo.png" alt="DarkVoid Logo" width="350" style="filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));"/>
+  <img src="voidlogo.gif" alt="DarkVoid Logo" width="350" style="filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));"/>
 
   # 🌌 VOID_PROTOCOL // ONLINE
 
