@@ -293,7 +293,7 @@ function frame() {
     const g = cx.createRadialGradient(px, py, 0, px, py, radius);
     
     // Dimmed to peak opacity of 20% to match the 50% dimmed request perfectly
-    g.addColorStop(0, `rgba(${b.color}, 0.2)`); 
+    g.addColorStop(0, `rgba(${b.color}, 0.8)`); 
     g.addColorStop(1, `rgba(${b.color}, 0)`);
     
     cx.beginPath();
