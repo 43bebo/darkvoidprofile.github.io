@@ -1,7 +1,7 @@
 <div align="center">
   <img src="voidlogo.gif" alt="DarkVoid Logo" width="350" style="filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));"/>
 
-  # 🌌 VOID_PROTOCOL // ONLINE
+  # 🌌 DarkVoid link in bio
 
   **Connect Through The Void.** *A highly aesthetic, physics-driven liquid glass link-in-bio profile.*
 
