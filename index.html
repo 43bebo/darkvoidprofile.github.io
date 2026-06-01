@@ -12,7 +12,6 @@
   html, body {
     width: 100%; height: 100%;
     background: #0a0014; 
-    background: radial-gradient(ellipse at center, #1f003b 0%, #000000 100%);
     color: #e8e0ff;
     font-family: 'Rajdhani', sans-serif;
     overflow: hidden;
@@ -54,12 +53,12 @@
     padding: 12px 20px;
     
     /* Liquid Glass Effect */
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(0, 0, 0, 0.4); /* Darkened for contrast */
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
     
     opacity: 0;
     transform: translateY(-10px);
@@ -72,12 +71,12 @@
   }
 
   #volume-control:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.6);
     border-color: rgba(255, 255, 255, 0.2);
   }
 
   #volume-icon {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.8);
     transition: color 0.3s;
   }
   #volume-control:hover #volume-icon {
@@ -97,7 +96,7 @@
     width: 100%;
     height: 4px;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
   }
   input[type="range"]::-webkit-slider-thumb {
@@ -116,8 +115,15 @@
     box-shadow: 0 0 15px rgba(93, 248, 216, 0.9);
   }
 
-  /* BG */
-  #bg { position: fixed; inset: 0; z-index: 0; }
+  /* --- VIDEO BACKGROUND --- */
+  #bg-video { 
+    position: fixed; 
+    inset: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    object-fit: cover; 
+    z-index: 0; 
+  }
 
   .noise {
     position: fixed; inset: 0; z-index: 1; opacity: .022; pointer-events: none;
@@ -152,7 +158,7 @@
   }
   body.entered #page { animation: fi 1s .2s forwards; }
 
-  /* --- PURE COLORLESS LIQUID GLASS BLOCKS --- */
+  /* --- COLORLESS SMOKED GLASS BLOCKS --- */
   .links {
     display: flex; flex-direction: column; gap: 20px;
     width: min(500px, 90vw);
@@ -166,12 +172,13 @@
     text-decoration: none; color: #e8e0ff;
     position: relative; overflow: hidden;
     
-    background: rgba(255, 255, 255, 0.02);
+    /* Changed to smoked glass for readability */
+    background: rgba(0, 0, 0, 0.4); 
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
     
     transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s, background .3s, border-color .3s;
   }
@@ -186,9 +193,10 @@
   
   .link-item:hover { 
     transform: translateY(-3px); 
-    background: rgba(255, 255, 255, 0.06);
+    /* Darker on hover */
+    background: rgba(0, 0, 0, 0.6);
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   }
   .link-item:hover::before { transform: scaleX(1); }
 
@@ -210,7 +218,7 @@
     flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(0, 0, 0, 0.3); /* Matches dark theme */
     border: 1px solid rgba(255, 255, 255, 0.08);
     transition: border-color .3s, box-shadow .3s, background .3s;
     backdrop-filter: blur(8px);
@@ -218,7 +226,7 @@
   }
   
   .link-item:hover .link-icon {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.5);
     border-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
   }
@@ -235,14 +243,17 @@
     font-weight: 700;
     font-size: 22px; 
     letter-spacing: .1em;
-    text-transform: uppercase; color: #fff;
+    text-transform: uppercase; 
+    color: #fff;
     margin: 0; 
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9); /* Drop shadow for visibility */
   }
 
   .link-arrow {
-    font-size: 24px; color: rgba(255,255,255,.4);
+    font-size: 24px; color: rgba(255,255,255,.6);
     font-weight: 700;
     transition: color .3s, transform .3s;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9); /* Drop shadow for visibility */
   }
   .link-item:hover .link-arrow { color: #fff; transform: translateX(6px); }
 
@@ -265,7 +276,12 @@
   <span id="enter-text">[ Click or Press Enter ]</span>
 </div>
 
-<canvas id="bg"></canvas>
+<!-- Replaced Canvas with Video Element -->
+<video id="bg-video" autoplay loop muted playsinline>
+  <!-- Change 'your-video-file.mp4' to your actual video name -->
+  <source src="videoplayback.mp4" type="video/mp4">
+</video>
+
 <div class="noise"></div>
 <div class="scanlines"></div>
 <div class="vignette"></div>
@@ -378,51 +394,6 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') enterSite();
 });
 
-
-// --- CANVAS (Animated Fluid Blobs) ---
-const cv = document.getElementById('bg');
-const cx = cv.getContext('2d');
-let W, H;
-
-function resize() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
-window.addEventListener('resize', resize); resize();
-
-const blobs = [
-  { x: 0.1, y: 0.1, vx: 0.0008, vy: 0.0012, r: 0.5, color: '93, 248, 216' },   
-  { x: 0.8, y: 0.9, vx: -0.001, vy: -0.0008, r: 0.6, color: '111, 209, 215' }, 
-  { x: 0.5, y: 0.2, vx: 0.0012, vy: -0.001, r: 0.4, color: '59, 117, 151' },   
-  { x: 0.2, y: 0.8, vx: -0.001, vy: 0.001,  r: 0.5, color: '9, 60, 93' }       
-];
-
-function frame() {
-  cx.fillStyle = '#000';
-  cx.fillRect(0, 0, W, H);
-  
-  blobs.forEach(b => {
-    b.x += b.vx;
-    b.y += b.vy;
-    
-    if (b.x < -0.3 || b.x > 1.3) b.vx *= -1;
-    if (b.y < -0.3 || b.y > 1.3) b.vy *= -1;
-
-    const px = b.x * W;
-    const py = b.y * H;
-    const radius = b.r * Math.max(W, H);
-
-    const g = cx.createRadialGradient(px, py, 0, px, py, radius);
-    
-    g.addColorStop(0, `rgba(${b.color}, 0.8)`); 
-    g.addColorStop(1, `rgba(${b.color}, 0)`);
-    
-    cx.beginPath();
-    cx.fillStyle = g;
-    cx.arc(px, py, radius, 0, Math.PI * 2);
-    cx.fill();
-  });
-  
-  requestAnimationFrame(frame);
-}
-frame();
 </script>
 </body>
 </html>
