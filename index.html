@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SRY7J8N71T"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-SRY7J8N71T');
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DarkVoid</title>
@@ -26,30 +17,6 @@
     overflow: hidden;
   }
 
-  /* --- ENTER SCREEN OVERLAY --- */
-  #enter-screen {
-    position: fixed; inset: 0; z-index: 9999;
-    background: #0a0014;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-  }
-  
-  #enter-screen.hidden {
-    opacity: 0; visibility: hidden;
-  }
-
-  #enter-text {
-    font-size: 26px; font-weight: 700; letter-spacing: 0.2em;
-    color: #fff; text-transform: uppercase;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; text-shadow: 0 0 15px rgba(93, 248, 216, 0.6); }
-    50% { opacity: 0.4; text-shadow: none; }
-  }
-
   /* --- TOP LEFT VOLUME CONTROL --- */
   #volume-control {
     position: fixed;
@@ -62,7 +29,7 @@
     padding: 12px 20px;
     
     /* Liquid Glass Effect */
-    background: rgba(0, 0, 0, 0.4); /* Darkened for contrast */
+    background: rgba(0, 0, 0, 0.4); 
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border-radius: 12px;
@@ -181,7 +148,6 @@
     text-decoration: none; color: #e8e0ff;
     position: relative; overflow: hidden;
     
-    /* Changed to smoked glass for readability */
     background: rgba(0, 0, 0, 0.4); 
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -202,7 +168,6 @@
   
   .link-item:hover { 
     transform: translateY(-3px); 
-    /* Darker on hover */
     background: rgba(0, 0, 0, 0.6);
     border-color: rgba(255, 255, 255, 0.2);
     box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -227,7 +192,7 @@
     flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.3); /* Matches dark theme */
+    background: rgba(0, 0, 0, 0.3); 
     border: 1px solid rgba(255, 255, 255, 0.08);
     transition: border-color .3s, box-shadow .3s, background .3s;
     backdrop-filter: blur(8px);
@@ -255,22 +220,23 @@
     text-transform: uppercase; 
     color: #fff;
     margin: 0; 
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9); /* Drop shadow for visibility */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9); 
   }
 
   .link-arrow {
     font-size: 24px; color: rgba(255,255,255,.6);
     font-weight: 700;
     transition: color .3s, transform .3s;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9); /* Drop shadow for visibility */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9); 
   }
   .link-item:hover .link-arrow { color: #fff; transform: translateX(6px); }
 
 </style>
 </head>
-<body>
 
-<audio id="bgMusic" loop src="music.mp3"></audio>
+<body class="entered">
+
+<audio id="bgMusic" loop autoplay src="music.mp3"></audio>
 
 <div id="volume-control">
   <svg id="volume-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -278,16 +244,10 @@
     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
   </svg>
-  <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.3">
+  <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.05">
 </div>
 
-<div id="enter-screen">
-  <span id="enter-text">[ Click or Press Enter ]</span>
-</div>
-
-<!-- Replaced Canvas with Video Element -->
 <video id="bg-video" autoplay loop muted playsinline>
-  <!-- Change 'your-video-file.mp4' to your actual video name -->
   <source src="videoplayback.mp4" type="video/mp4">
 </video>
 
@@ -297,17 +257,6 @@
 
 <div id="page">
   <div class="links">
-
-    <a class="link-item" href="https://discord.gg/V8RrggpvzT" target="_blank">
-      <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
-      <div class="link-icon">
-        <img src="discord-server.png" alt="Discord Server" class="custom-logo">
-      </div>
-      <div class="link-text">
-        <span class="link-name">Discord — Server</span>
-      </div>
-      <span class="link-arrow">→</span>
-    </a>
 
     <a class="link-item" href="https://discord.com/users/751405881018679337" target="_blank">
       <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
@@ -343,51 +292,26 @@
       <span class="link-arrow">→</span>
     </a>
 
-    <a class="link-item" href="https://kick.com/voided-0" target="_blank">
-      <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
-      <div class="link-icon">
-        <img src="kick.png" alt="Kick" class="custom-logo">
-      </div>
-      <div class="link-text">
-        <span class="link-name">Kick</span>
-      </div>
-      <span class="link-arrow">→</span>
-    </a>
-
   </div>
 </div>
 
 <script>
-// --- ENTER SCREEN & AUDIO LOGIC ---
-const enterScreen = document.getElementById('enter-screen');
+// --- AUDIO LOGIC ---
 const bgMusic = document.getElementById('bgMusic');
 const volumeSlider = document.getElementById('volume-slider');
 const volumeIcon = document.getElementById('volume-icon');
 
-let hasEntered = false;
-
-// Set initial volume based on the slider value (0.3)
+// Set initial volume based on the slider value (0.05 / 5%)
 bgMusic.volume = volumeSlider.value;
 
-function enterSite() {
-  if (hasEntered) return;
-  hasEntered = true;
-  
-  // Play music
-  bgMusic.play().catch(e => console.log("Audio play failed:", e));
-  
-  // Hide overlay
-  enterScreen.classList.add('hidden');
-  
-  // Trigger main page entrance animations
-  document.body.classList.add('entered');
-}
+// Attempt to play music immediately. 
+// Note: Browsers may block auto-play until the user clicks somewhere on the page.
+bgMusic.play().catch(e => console.log("Browser prevented autoplay. User interaction required:", e));
 
 // Update volume when slider is dragged
 volumeSlider.addEventListener('input', (e) => {
   bgMusic.volume = e.target.value;
   
-  // Optional: Change icon slightly if muted
   if (e.target.value == 0) {
     volumeIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
   } else {
@@ -395,13 +319,12 @@ volumeSlider.addEventListener('input', (e) => {
   }
 });
 
-// Listen for mouse click on the screen
-enterScreen.addEventListener('click', enterSite);
-
-// Listen for the "Enter" key being pressed
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') enterSite();
-});
+// Backup in case the browser blocks autoplay: start music on the first click anywhere on the page
+document.addEventListener('click', () => {
+    if (bgMusic.paused) {
+        bgMusic.play().catch(e => console.log(e));
+    }
+}, { once: true }); // Ensure this only triggers on the very first click
 
 </script>
 </body>
