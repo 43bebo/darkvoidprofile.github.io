@@ -42,14 +42,3 @@ Designed natively for static hosting, it features a built-in client-side **Disco
 *   **Icons:** [FontAwesome 6](https://fontawesome.com/)
 *   **Logic:** Vanilla ES6 JavaScript
 *   **Deployment:** GitHub Pages
-
----
-
-## 🚀 Deployment & Setup
-
-Because DarkVoid is a purely static frontend, deployment takes seconds.
-
-### Local Development
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/YOUR_USERNAME/darkvoid.git](https://github.com/YOUR_USERNAME/darkvoid.git)
