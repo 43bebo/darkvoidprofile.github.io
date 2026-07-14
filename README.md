@@ -1,40 +1,55 @@
 <div align="center">
-  <img src="voidlogo.gif" alt="DarkVoid Logo" width="350" style="filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));"/>
+  <!-- Replace with your actual logo link if hosted -->
+  <img src="logo.png" alt="DarkVoid Logo" width="120" style="border-radius: 10px; margin-bottom: 20px;"/>
+  
+  <h1>D A R K <span style="color: #555;">V O I D</span></h1>
+  
+  <p><b>Premium Digital Goods. Strictly Curated. Zero Downtime.</b></p>
 
-  # 🌌 DarkVoid link in bio
-
-  **Connect Through The Void.** *A highly aesthetic, physics-driven liquid glass link-in-bio profile.*
-
-  ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-  ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-  ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+  <!-- Badges -->
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-000000?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/Vanilla_JS-000000?style=for-the-badge&logo=javascript&logoColor=white" alt="JavaScript"></a>
+  <a href="https://pages.github.com/"><img src="https://img.shields.io/badge/GitHub_Pages-000000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Pages"></a>
+  <br><br>
 </div>
-
-<br>
-
-## ✦ System Overview
-**DarkVoid** is a custom, zero-dependency "link-in-bio" landing page built strictly for aesthetics and performance. It steps away from boring flat designs and introduces a fully animated fluid background rendered on an HTML5 canvas, overlaid with pure, colorless "LiquidGlass" UI components that absorb and refract the dynamic world behind them.
-
-## ✦ Core Features
-- 🧊 **Pure LiquidGlass UI:** Colorless, highly refractive frosted glass containers with crisp, sweeping light hovers.
-- 🌊 **Canvas Void Animation:** Smooth, floating liquid gradient blobs bouncing off-screen (dimmed to 50% opacity for mood and readability).
-- ⚡ **Zero Dependencies:** Pure Vanilla HTML, CSS, and JS. No bulky frameworks, instantaneous load times.
-- 📱 **Fully Responsive:** Fluid layouts that scale perfectly from ultra-wide gaming monitors down to mobile displays.
-- 🖋️ **Modern Typography:** Utilizing the `Rajdhani` font for a sleek, futuristic, tech-forward aesthetic.
-
-## ✦ Customization Guide
-Want to deploy this protocol for your own sector? It's plug-and-play.
-
-1. **The Logo:** Simply replace the existing `voidlogo.png` file in the root directory with your own transparent image.
-2. **The Icons:** Drop your custom platform icons (e.g., `discord-server.png`, `tiktok.png`) into the root directory.
-3. **The Links:** Open `index.html` and update the `<a href="#">` tags with your actual profile URLs.
-4. **The Colors (Optional):** Edit the `blobs` array inside the `<script>` tag at the bottom of `index.html` to change the RGB values of the floating liquid background.
-
-## ✦ Status
-`SECTOR_NULL // COORDINATES_LOCKED`
 
 ---
 
-<div align="center">
-  <i>Developed in the Void.</i>
-</div>
+## 🕳️ Enter The Void
+
+**DarkVoid** is an ultra-minimalist, high-performance frontend template designed for digital game key storefronts. Built with a strict monochrome palette, it relies on sharp typography, fluid hover states, and absolute responsiveness to create a premium user experience.
+
+Designed natively for static hosting, it features a built-in client-side **Discord OAuth2** flow, allowing users to authenticate without a backend database.
+
+> **⚠️ STATUS:** Active Development / Under Construction
+
+---
+
+## ⚡ Features
+
+*   **Absolute Monochrome UI:** A carefully balanced palette of pure black, white, and grays for a sleek, distraction-free environment.
+*   **Discord Implicit OAuth2:** Client-side login system that fetches the user's Discord avatar and username directly via URL fragments.
+*   **Forced Interaction Pop-ups:** Includes a customizable "Under Construction" modal with a forced 5-second countdown timer.
+*   **Responsive Grid Architecture:** Product cards perfectly maintain a `500x333` ($3:2$) aspect ratio across all mobile and desktop viewports.
+*   **Clean Routing:** Configured for GitHub pages to strip `.html` extensions from URLs (e.g., `darkvoid.lol/store`).
+
+---
+
+## 🛠️ Tech Stack
+
+*   **Markup:** HTML5
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/) (via CDN)
+*   **Icons:** [FontAwesome 6](https://fontawesome.com/)
+*   **Logic:** Vanilla ES6 JavaScript
+*   **Deployment:** GitHub Pages
+
+---
+
+## 🚀 Deployment & Setup
+
+Because DarkVoid is a purely static frontend, deployment takes seconds.
+
+### Local Development
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/YOUR_USERNAME/darkvoid.git](https://github.com/YOUR_USERNAME/darkvoid.git)
