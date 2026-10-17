@@ -108,18 +108,20 @@
     }
 </style>
 <script>
-    document.addEventListener('contextmenu', function(event) {
-        event.preventDefault();
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = 'toast-message';
-        toast.innerHTML = '🛡️ Action not allowed'; 
-        container.appendChild(toast);
-
-        setTimeout(() => {
-            toast.remove();
-        }, 1000);
-    });
+   document.addEventListener('contextmenu',function(e){
+  e.preventDefault();
+  var t=document.createElement('div');
+  t.className='toast-message';
+  t.textContent='🛡️ Context menu is not allowed';
+  document.getElementById('toast-container').appendChild(t);
+  setTimeout(function(){t.remove()},1500);
+});
+document.addEventListener('keydown', function(event) {
+    // Check if the pressed key is F12 (keyCode 123)
+    if (event.key === 'F12' || event.keyCode === 123) {
+      event.preventDefault();
+    }
+  });
 </script>
 </body>
 </html>
